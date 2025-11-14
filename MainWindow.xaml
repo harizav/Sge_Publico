@@ -1,0 +1,70 @@
+﻿<Window x:Class="MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Sistema de Gestión de Empleados" Height="620" Width="900">
+
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ==================== PANEL SUPERIOR (FORMULARIO) ==================== -->
+        <StackPanel Orientation="Vertical" Margin="0 0 0 10">
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="ID:" Width="120"/>
+                <TextBox x:Name="txtID" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="Nombre Completo:" Width="120"/>
+                <TextBox x:Name="txtNombre" Width="300"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="Fecha Contratación:" Width="120"/>
+                <DatePicker x:Name="dpFecha" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="Cargo:" Width="120"/>
+                <TextBox x:Name="txtCargo" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="Salario:" Width="120"/>
+                <TextBox x:Name="txtSalario" Width="200"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBlock Text="Departamento:" Width="120"/>
+                <TextBox x:Name="txtDepartamento" Width="200"/>
+            </StackPanel>
+
+            <!-- BOTONES CRUD -->
+            <StackPanel Orientation="Horizontal" Margin="0 10">
+                <Button x:Name="btnCrear" Content="Crear" Width="100" Margin="5"/>
+                <Button x:Name="btnActualizar" Content="Actualizar" Width="100" Margin="5"/>
+                <Button x:Name="btnEliminar" Content="Eliminar" Width="100" Margin="5"/>
+            </StackPanel>
+
+            <!-- BUSCADOR -->
+            <StackPanel Orientation="Horizontal" Margin="0 5">
+                <TextBox x:Name="txtBuscar" Width="200"/>
+                <Button x:Name="btnBuscar" Content="Buscar" Width="100" Margin="10 0"/>
+                <Button x:Name="btnValConexion" Content="Conexión" Width="100" Margin="5"/>
+            </StackPanel>
+
+        </StackPanel>
+
+        <!-- ==================== TABLA ==================== -->
+        <DataGrid x:Name="dgEmpleados"
+                  Grid.Row="1"
+                  AutoGenerateColumns="True"
+                  Margin="0 10 0 0"
+                  Height="350"/>
+
+    </Grid>
+</Window>
