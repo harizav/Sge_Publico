@@ -1,12 +1,12 @@
-USE AMARIS
+--USE AMARIS
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 /*
 ==================================================================================================================    
-' Creación: Procedimiento para buscar en la tabla Empleados"  
-' Fecha Creación: 14/11/2025                     
+' CreaciÃ³n: Procedimiento para buscar en la tabla Empleados"  
+' Fecha CreaciÃ³n: 14/11/2025                     
 ' Autor: Humberto R. Ariza V. - XXXXX  
 ' Proyecto: SGE  
 ' Solicitud: RRHH
