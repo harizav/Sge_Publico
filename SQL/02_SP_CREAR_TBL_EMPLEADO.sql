@@ -1,8 +1,8 @@
-USE AMARIS
+--USE AMARIS
 /*
 ==================================================================================================================    
-' Creación: Se crea la tabla Empleados"  
-' Fecha Creación: 14/11/2025                     
+' CreaciÃ³n: Se crea la tabla Empleados"  
+' Fecha CreaciÃ³n: 14/11/2025                     
 ' Autor: Humberto R. Ariza V. - XXXXX  
 ' Proyecto: SGE  
 ' Solicitud: RRHH
