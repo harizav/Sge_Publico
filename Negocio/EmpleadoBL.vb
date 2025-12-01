@@ -6,12 +6,12 @@ Namespace Negocio
 
         Private dao As New EmpleadoDAO()
 
-        Public Function Listar() As List(Of Empleado)
+        Public Function Listar() As List(Of Empleado_Leer)
             Return dao.Listar()
         End Function
 
-        Public Function Crear(emp As Empleado) As Boolean
-            Return dao.Crear(emp)
+        Public Function Crear(emp As Empleado) As Integer
+            Return New EmpleadoDAO().Crear(emp)
         End Function
 
         Public Function Actualizar(emp As Empleado) As Boolean
@@ -22,10 +22,15 @@ Namespace Negocio
             Return dao.Eliminar(id)
         End Function
 
-        Public Function Buscar(criterio As String) As List(Of Empleado)
+        Public Function Buscar(criterio As String) As List(Of Empleado_Leer)
             Return dao.Buscar(criterio)
         End Function
-
+        Public Function CargarCargos() As List(Of Cargos)
+            Return dao.BuscarCargos()
+        End Function
+        Public Function CargarDepartamentos() As List(Of Departamentos)
+            Return dao.BuscarDepartamentos()
+        End Function
     End Class
 End Namespace
 

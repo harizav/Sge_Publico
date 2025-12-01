@@ -1,9 +1,54 @@
 ﻿<Window x:Class="MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Sistema de Gestión de Empleados" Height="620" Width="900">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sge="clr-namespace:Sge"
+        Title="Sistema de Gestión de Empleados" Height="620" Width="900" WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+    <Window.Resources>
 
-    <Grid Margin="20">
+        <!-- Color de bordes de las celdas -->
+        <SolidColorBrush x:Key="GridCellBorderColor" Color="#FF94A3B8"/>
+        <!-- Gris elegante -->
+
+        <!-- Colores corporativos -->
+        <SolidColorBrush x:Key="GridHeaderColor" Color="#FF2D89EF"/>
+        <SolidColorBrush x:Key="GridHeaderTextColor" Color="White"/>
+        <SolidColorBrush x:Key="GridRowColor" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="GridAltRowColor" Color="#FFF1F5F9"/>
+        <SolidColorBrush x:Key="GridSelectedRowColor" Color="#FFCCE5FF"/>
+
+        <!-- Estilo de encabezados -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="{StaticResource GridHeaderColor}" />
+            <Setter Property="Foreground" Value="{StaticResource GridHeaderTextColor}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="BorderBrush" Value="#FF1E5BB9"/>
+            <Setter Property="BorderThickness" Value="0,0,1,1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Estilo general del DataGrid -->
+        <Style TargetType="DataGrid">
+            <Setter Property="RowBackground" Value="{StaticResource GridRowColor}" />
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource GridAltRowColor}" />
+            <Setter Property="VerticalGridLinesBrush" Value="#FFCBD5E1"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="#FFCBD5E1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="BorderBrush" Value="#FF1E3A8A"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <!-- Estilo de filas -->
+        <Style TargetType="DataGridRow">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid x:Name="GridPrincipal" Margin="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,12 +60,14 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="ID:" Width="120"/>
-                <TextBox x:Name="txtID" Width="200"/>
+                <TextBox x:Name="txtID" Width="200" MaxLength="12"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="Nombre Completo:" Width="120"/>
-                <TextBox x:Name="txtNombre" Width="300"/>
+                <TextBox x:Name="txtNombre" Width="500"
+                TextChanged="txtNombre_TextChanged"
+                MaxLength="80"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
@@ -30,41 +77,109 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="Cargo:" Width="120"/>
-                <TextBox x:Name="txtCargo" Width="200"/>
+                <ComboBox x:Name="cmbCargo" 
+                          Width="200"
+                          DisplayMemberPath="NomCargo"   
+                          SelectedValuePath="ID"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="Salario:" Width="120"/>
-                <TextBox x:Name="txtSalario" Width="200"/>
+                <TextBox x:Name="txtSalario"
+                         PreviewTextInput="txtSalario_PreviewTextInput"
+                         LostFocus="txtSalario_LostFocus"
+                         DataObject.Pasting="txtSalario_Pasting"
+                         HorizontalContentAlignment="Right"
+                         Width="120"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBlock Text="Departamento:" Width="120"/>
-                <TextBox x:Name="txtDepartamento" Width="200"/>
+                <ComboBox x:Name="cmbDepartamento" 
+                          Width="200"
+                          DisplayMemberPath="NomDep"   
+                          SelectedValuePath="ID"/>
             </StackPanel>
 
             <!-- BOTONES CRUD -->
             <StackPanel Orientation="Horizontal" Margin="0 10">
-                <Button x:Name="btnCrear" Content="Crear" Width="100" Margin="5"/>
-                <Button x:Name="btnActualizar" Content="Actualizar" Width="100" Margin="5"/>
-                <Button x:Name="btnEliminar" Content="Eliminar" Width="100" Margin="5"/>
+                <Button x:Name="btnCrear" Content="Crear" Width="100" Margin="5" Click="btnCrear_Click"/>
+                <Button x:Name="btnActualizar" Content="Actualizar" Width="100" Margin="5" Click="btnActualizar_Click"/>
+                <Button x:Name="btnEliminar" Content="Eliminar" Width="100" Margin="5" Click="btnEliminar_Click"/>
+                <Button x:Name="btnLimpiar" Content="Limpiar" Width="100" Margin="5" Click="btnLimpiar_Click"/>
             </StackPanel>
 
             <!-- BUSCADOR -->
             <StackPanel Orientation="Horizontal" Margin="0 5">
                 <TextBox x:Name="txtBuscar" Width="200"/>
-                <Button x:Name="btnBuscar" Content="Buscar" Width="100" Margin="10 0"/>
-                <Button x:Name="btnValConexion" Content="Conexión" Width="100" Margin="5"/>
+                <Button x:Name="btnBuscar" Content="Buscar" Width="100" Margin="10 0" Click="btnBuscar_Click"/>
+                <Button x:Name="btnValConexion" Content="Conexión" Width="100" Margin="5" Click="ValidarConexion"/>
             </StackPanel>
 
         </StackPanel>
+        <DataGrid x:Name="dgEmpleados" 
+          ColumnWidth="*"
+          AutoGenerateColumns="False"
+          Grid.Row="1"
+          Margin="0 10 0 0"
+          Height="350"
+          SelectionMode="Single"
+          CanUserAddRows="False"
+          CanUserResizeColumns="False"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          SelectionChanged="dgEmpleados_SelectionChanged"
+          AlternationCount="2">
+            <DataGrid.Resources>
+                <Style x:Key="CenterCell" TargetType="TextBlock">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="TextAlignment" Value="Center"/>
+                </Style>
+                
 
-        <!-- ==================== TABLA ==================== -->
-        <DataGrid x:Name="dgEmpleados"
-                  Grid.Row="1"
-                  AutoGenerateColumns="True"
-                  Margin="0 10 0 0"
-                  Height="350"/>
+                <!-- Estilo para centrar y poner en negrilla los encabezados -->
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ID}"  
+                            ElementStyle="{StaticResource CenterCell}" 
+                            Header="ID" />
+
+                <DataGridTextColumn Binding="{Binding NombreCompleto}" 
+                            Header="Nombre" />
+
+                <DataGridTextColumn Binding="{Binding FechaContratacion, StringFormat=dd/MM/yyyy}" 
+                            ElementStyle="{StaticResource CenterCell}" 
+                            Header="Fec. Contrato" />
+
+                <DataGridTextColumn Binding="{Binding Cargo}"  
+                            ElementStyle="{StaticResource CenterCell}" 
+                            Header="Cargo" />
+
+                <DataGridTextColumn Header="Salario" Binding="{Binding Salario, StringFormat=C0}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                            <Setter Property="TextAlignment" Value="Right"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Binding="{Binding Departamento}"  
+                            ElementStyle="{StaticResource CenterCell}" 
+                            Header="Departamento" />
+
+                <DataGridTextColumn Binding="{Binding login}" 
+                            Header="Usuario" />
+
+                <DataGridTextColumn Binding="{Binding CargoID}" Visibility="Collapsed"/>
+                <DataGridTextColumn Binding="{Binding DepartamentoID}" Visibility="Collapsed"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>
