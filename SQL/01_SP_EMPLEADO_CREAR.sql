@@ -1,12 +1,12 @@
-USE AMARIS
+--USE AMARIS
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 /*
 ==================================================================================================================    
-' Creación: Procedimiento para crear en la tabla Empleados"  
-' Fecha Creación: 14/11/2025                     
+' CreaciÃ³n: Procedimiento para crear en la tabla Empleados"  
+' Fecha CreaciÃ³n: 14/11/2025                     
 ' Autor: Humberto R. Ariza V. - XXXXX  
 ' Proyecto: SGE  
 ' Solicitud: RRHH
@@ -25,7 +25,7 @@ CREATE PROCEDURE sp_Empleado_Crear
     @Salario DECIMAL(18,2),
     @Departamento NVARCHAR(100),
 	@login NVARCHAR(10),
-	@obs NVARCHAR (200)= 'Creación desde la App'
+	@obs NVARCHAR (200)= 'CreaciÃ³n desde la App'
 )
 AS
 BEGIN
